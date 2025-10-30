@@ -2,8 +2,8 @@ name: Build & upload Docker images tar
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - '*'
 
 jobs:
   build-and-upload:
