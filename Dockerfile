@@ -2,7 +2,7 @@ FROM python:3.12
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 시스템 의존성 설치 (pycairo/WeasyPrint 필요 라이브러리).
+# 시스템 의존성 설치 (pycairo/WeasyPrint 필요 라이브러리)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     vim \
     libcairo2 \
