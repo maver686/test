@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libffi-dev \
     pkg-config \
     fonts-dejavu \
-    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # pip 최신화
