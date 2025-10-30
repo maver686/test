@@ -32,4 +32,4 @@ jobs:
       with:
           files: artifacts/${{ matrix.image-folder }}-${{ github.ref_name }}.tar.gz
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
