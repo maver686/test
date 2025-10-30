@@ -21,13 +21,13 @@ jobs:
       - name: Build Docker image
         run: |
           IMAGE_NAME=${{ matrix.image-folder }}
-          TAG_NAME=${GITHUB_REF_NAME}
+          TAG_NAME=${{ github.run_number }}
           docker build -t $IMAGE_NAME:$TAG_NAME ./${{ matrix.image-folder }}
 
       - name: Save Docker image to tar.gz
         run: |
           IMAGE_NAME=${{ matrix.image-folder }}
-          TAG_NAME=${GITHUB_REF_NAME}
+          TAG_NAME=${{ github.run_number }}
           mkdir -p artifacts
           docker save $IMAGE_NAME:$TAG_NAME -o artifacts/$IMAGE_NAME-$TAG_NAME.tar
           gzip -f artifacts/$IMAGE_NAME-$TAG_NAME.tar
