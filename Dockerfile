@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2-dev \
     pkg-config \
     fonts-dejavu \
+    lxml \
     && rm -rf /var/lib/apt/lists/*
 
 # pip 최신화
