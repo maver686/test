@@ -1,62 +1,27 @@
-# ===========================================================
-# Base: Apache Airflow Slim Image (Python 3.12)
-# ===========================================================
-FROM apache/airflow:slim-3.1.1-python3.12
+FROM python:3.12
 
-USER root
+ENV DEBIAN_FRONTEND=noninteractive
 
-# -----------------------------------------------------------
-# System dependencies: ODBC + Kerberos + Hadoop client libs
-# -----------------------------------------------------------
+# 시스템 의존성 설치 (pycairo/WeasyPrint 필요 라이브러리)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    unixodbc \
-    libkrb5-dev \
-    libsasl2-modules-gssapi-mit \
-    krb5-user \
-    curl \
     vim \
-    tar \
+    libcairo2 \
+    libcairo2-dev \
+    pkg-config \
+    fonts-dejavu \
     && rm -rf /var/lib/apt/lists/*
 
-# -----------------------------------------------------------
-# OpenJDK 11 설치 (tar.gz)
-# -----------------------------------------------------------
-COPY openjdk-11.0.2_linux-x64_bin.tar.gz /tmp/
-RUN mkdir -p /usr/lib/jvm && \
-    tar -xzf /tmp/openjdk-11.0.2_linux-x64_bin.tar.gz -C /usr/lib/jvm && \
-    rm /tmp/openjdk-11.0.2_linux-x64_bin.tar.gz
+# pip 최신화
+RUN python -m pip install --upgrade pip
 
-ENV JAVA_HOME=/usr/lib/jvm/jdk-11.0.20
-ENV PATH=$JAVA_HOME/bin:$PATH
-
-# -----------------------------------------------------------
-# Kerberos / Hadoop environment variables
-# -----------------------------------------------------------
-ENV HADOOP_CONF_DIR=/etc/hadoop/conf
-ENV YARN_CONF_DIR=/etc/hadoop/conf
-ENV PYSPARK_PYTHON=python3
-ENV PYSPARK_DRIVER_PYTHON=python3
-
-# -----------------------------------------------------------
-# Cloudera ODBC drivers
-# -----------------------------------------------------------
-ENV LD_LIBRARY_PATH=/opt/cloudera/parcels/CDH/lib/hadoop/lib/native
-ENV ODBCINI=/etc/odbc.ini
-ENV ODBCSYSINI=/etc
-
-# -----------------------------------------------------------
-# Python dependencies
-# -----------------------------------------------------------
-USER airflow
-
+# PDF 관련 Python 라이브러리 설치
 RUN pip install --no-cache-dir \
-    pyspark==3.1.1 \
-    pyodbc \
-    pandas \
-    numpy \
-    sqlalchemy
+    lxml \
+    xhtml2pdf \
+    pyhtml2pdf
+    
+# 작업 디렉토리
+WORKDIR /app
 
-
-WORKDIR /opt/airflow
-USER root
-CMD ["bash"]
+# 기본 커맨드
+CMD ["python3"]
