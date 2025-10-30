@@ -1,8 +1,7 @@
-FROM python:3.12-slim
+FROM python:3.12
 
 # 시스템 의존성 설치 (pycairo/WeasyPrint 필요 라이브러리)
-RUN sed -i 's|deb.debian.org|ftp.kr.debian.org|g' /etc/apt/sources.list && \
-    apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2 \
     libcairo2-dev \
     libpango1.0-0 \
