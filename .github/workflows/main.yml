@@ -15,16 +15,16 @@ jobs:
 
     - name: Build Docker image
       run: |
-         IMAGE_NAME='testimg'
-         TAG_NAME='testimg'
-         docker build -t 'testimg':'testimg' ./'testimg'
+         IMAGE_NAME=testimg
+         TAG_NAME=testimg
+         docker build -t testimg:testimg ./testimg
 
     - name: Save Docker image to tar.gz
       run: |
-         IMAGE_NAME='testimg'
-         TAG_NAME='testimg'
+         IMAGE_NAME=testimg
+         TAG_NAME=testimg
          mkdir -p artifacts
-         docker save 'testimg':'testimg' -o artifacts/testimg-testimg.tar
+         docker save testimg:testimg -o artifacts/testimg-testimg.tar
          gzip -f artifacts/testimg-testimg.tar
 
     - name: Upload tar.gz to GitHub Release
