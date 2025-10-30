@@ -15,21 +15,21 @@ jobs:
 
     - name: Build Docker image
       run: |
-         IMAGE_NAME=${{ matrix.image-folder }}
-         TAG_NAME=${GITHUB_REF_NAME}
-         docker build -t $IMAGE_NAME:$TAG_NAME ./${{ matrix.image-folder }}
+         IMAGE_NAME='testimg'
+         TAG_NAME='testimg'
+         docker build -t 'testimg':'testimg' ./'testimg'
 
     - name: Save Docker image to tar.gz
       run: |
-         IMAGE_NAME=${{ matrix.image-folder }}
-         TAG_NAME=${GITHUB_REF_NAME}
+         IMAGE_NAME='testimg'
+         TAG_NAME='testimg'
          mkdir -p artifacts
-         docker save $IMAGE_NAME:$TAG_NAME -o artifacts/$IMAGE_NAME-$TAG_NAME.tar
-         gzip -f artifacts/$IMAGE_NAME-$TAG_NAME.tar
+         docker save 'testimg':'testimg' -o artifacts/testimg-testimg.tar
+         gzip -f artifacts/testimg-testimg.tar
 
     - name: Upload tar.gz to GitHub Release
       uses: softprops/action-gh-release@v2
       with:
-          files: artifacts/${{ matrix.image-folder }}-${{ github.ref_name }}.tar.gz
+          files: artifacts/testimg-testimg.tar.gz
       env:
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
